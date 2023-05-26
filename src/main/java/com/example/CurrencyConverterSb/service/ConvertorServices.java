@@ -1,6 +1,6 @@
 package com.example.CurrencyConverterSb.service;
 
-import gitcom.example.CurrencyConverterSb.CustomException.ApiRequestException;
+import com.example.CurrencyConverterSb.CustomException.ApiRequestException;
 import com.example.CurrencyConverterSb.Entity.ExchangeRates;
 import com.example.CurrencyConverterSb.repository.RatesMapper;
 import com.example.CurrencyConverterSb.requests.UserRequest;
