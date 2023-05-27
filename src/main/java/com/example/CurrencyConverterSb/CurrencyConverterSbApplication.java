@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Currency Convertor",version = "1.0",
-		description = "Currency Convertor Springboot Application"))
+		description = "Currency Convertor Spring-boot Application"))
 
 public class CurrencyConverterSbApplication {
 	public static void main(String[] args) {

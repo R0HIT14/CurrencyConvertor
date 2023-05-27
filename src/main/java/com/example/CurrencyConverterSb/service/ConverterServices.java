@@ -2,8 +2,9 @@ package com.example.CurrencyConverterSb.service;
 
 import com.example.CurrencyConverterSb.CustomException.ApiRequestException;
 import com.example.CurrencyConverterSb.Entity.ExchangeRates;
-import com.example.CurrencyConverterSb.repository.RatesMapper;
+import com.example.CurrencyConverterSb.repository.ConvertorRepository;
 import com.example.CurrencyConverterSb.requests.UserRequest;
+
 import com.example.CurrencyConverterSb.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,28 +12,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
-public class ConvertorServices {
+public class ConverterServices {
+
     @Autowired
-    public RatesMapper ratesMapper;
+    private ConvertorRepository convertorRepository;
+    private ExchangeRates exchangeRates;
 
     public List<ExchangeRates> getAllExchangeRates() {
-        return ratesMapper.findAll();
+        return convertorRepository.findAll();
     }
 
-    public ExchangeRates getCurrencyById(String id){
-        return ratesMapper.getCurrencyById(id);
+    public ExchangeRates addAllExchangeRates(ExchangeRates exchangeRates) {
+        return convertorRepository.save(exchangeRates);
     }
 
-    public ResponseEntity<String> addAllExchangeRates(ExchangeRates x) {
-//        System.out.println(x.getCurrencyId());
-//        System.out.println(ratesMapper.getCurrencyById(x.getCurrencyId()));
-        ExchangeRates er = ratesMapper.getCurrencyById(x.getCurrencyId());
-        if (er != null) {
-            return ResponseEntity.badRequest().body("These exchange rates are already present in the database");
+    public ResponseEntity<Object> getCurrencyById(String id){
+        ExchangeRates er = getAllExchangeRates().stream()
+                .filter(t -> id.equals(t.getCurrencyId()))
+                .findFirst()
+                .orElse(null);
+        if (er == null) {
+            return ResponseEntity.notFound().build();
         }
-        ratesMapper.addAllExchangeRates(x);
-        return ResponseEntity.ok().body("Successfully added");
+        return ResponseEntity.ok(er);
     }
 
     public UserResponse getConversion(UserRequest userRequest) {
@@ -41,7 +45,9 @@ public class ConvertorServices {
         return r1;
     }
     public ResponseEntity<Object> convert(UserRequest userRequest)throws ApiRequestException {
-        ExchangeRates exchangeRates = ratesMapper.getCurrencyById(userRequest.getCurType());
+        ExchangeRates exchangeRates = getAllExchangeRates().stream()
+                .filter(t -> userRequest.getCurType().equals(t.getCurrencyId()))
+                .findFirst().orElse(null);
 
         if (exchangeRates == null) {
             throw new ApiRequestException("You have entered wrong currency type");
