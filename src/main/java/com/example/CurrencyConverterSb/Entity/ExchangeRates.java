@@ -1,10 +1,23 @@
 package com.example.CurrencyConverterSb.Entity;
 
- public class ExchangeRates {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Exchange_Rates")
+public class ExchangeRates {
+    @Id
+    @Column(name = "Currency")
     private String currencyId;
+    @Column(name = "INR")
     private double inrRate;
+    @Column(name = "EURO")
     private double eurRate;
+    @Column(name = "YEN")
     private double jpyRate;
+    @Column(name = "USD")
     private double usdRate;
 
     public ExchangeRates(String currencyId, double inrRate, double eurRate, double jpyRate, double usdRate) {
