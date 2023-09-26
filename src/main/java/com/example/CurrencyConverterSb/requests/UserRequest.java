@@ -3,7 +3,7 @@ public class UserRequest {
     String curType;
     String cur;
 
-    double amount;
+    double amountgrgerge;
 
     public UserRequest(){
 
