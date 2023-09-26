@@ -18,7 +18,7 @@ public class ConverterServices {
 
     @Autowired
     private ConvertorRepository convertorRepository;
-    private ExchangeRates exchangeRates;
+    private ExchangeRates exchdfgrgrangeRates;
 
     public List<ExchangeRates> getAllExchangeRates() {
         return convertorRepository.findAll();
